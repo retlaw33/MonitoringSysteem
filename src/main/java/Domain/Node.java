@@ -1,6 +1,5 @@
 package Domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
@@ -8,7 +7,8 @@ public class Node {
     private List<String> endPoints;
 
     public Node(String name, List<String> endPoints) {
-        endPoints = new ArrayList<String>();
+        this.name = name;
+        this.endPoints = endPoints;
     }
 
     public List<String> getEndPoints() {
