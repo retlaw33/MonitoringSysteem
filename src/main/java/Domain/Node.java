@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
+    private String name;
     private List<String> endPoints;
 
-    public Node(String ip, int port, List<String> lastPartEndPoints) {
+    public Node(String name, List<String> endPoints) {
         endPoints = new ArrayList<String>();
-
-        for (String lpep : lastPartEndPoints) {
-            String endPoint = "http://" + ip + ":" + String.valueOf(port) + "/" + lpep;
-            endPoints.add(endPoint);
-            System.out.println("endPoint added: " + endPoint);
-        }
     }
 
     public List<String> getEndPoints() {
