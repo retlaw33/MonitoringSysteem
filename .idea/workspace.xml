@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31ecb902-e1b8-4613-b9a8-e6ff5dd24144" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Domain/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Domain/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Service/NodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Service/NodeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Start.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Nodes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Nodes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Domain/Ping.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Domain/Ping.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Nodes.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Nodes.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Service/NodeService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Service/NodeService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Start.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Start.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -28,8 +21,8 @@
       <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Domain/Node.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="68">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -37,8 +30,12 @@
       <file leaf-file-name="NodeService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Service/NodeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="-68">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1272#1280#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,9 +98,9 @@
         <option value="$PROJECT_DIR$/src/main/java/Domain/Address.java" />
         <option value="$PROJECT_DIR$/src/main/java/Domain/Ping.java" />
         <option value="$PROJECT_DIR$/src/main/resources/Nodes.json" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/Start.java" />
         <option value="$PROJECT_DIR$/src/main/java/Domain/Node.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/Service/NodeService.java" />
       </list>
     </option>
@@ -122,8 +119,6 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="10" />
-    <option name="y" value="-25" />
     <option name="width" value="1920" />
     <option name="height" value="1060" />
   </component>
@@ -192,6 +187,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../JEA/KwetterGit/KwetterMaWa" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -266,19 +262,19 @@
       <option name="presentableId" value="Default" />
       <updated>1523956058563</updated>
       <workItem from="1523956063984" duration="4711000" />
-      <workItem from="1523965199466" duration="94000" />
+      <workItem from="1523965199466" duration="2324000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4805000" />
+    <option name="totallyTimeSpent" value="7035000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32965517" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -304,7 +300,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32965517" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,6 +320,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1272#1280#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -342,13 +341,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -374,8 +366,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Domain/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -391,10 +383,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../JEA/KwetterGit/KwetterMaWa/KwetterMaWa.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Service/NodeService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="-68">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1272#1280#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
