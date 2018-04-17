@@ -1,19 +1,22 @@
-[{
-  "name": "IT_Registratie",
-  "ip": "127.0.0.1",
-  "port": "8080",
-  "lastPartEndPoints": [
-    "Registratie/api/1",
-    "Registratie/api/2",
-    "Registratie/api/3"
-  ]
-},
-{
-  "name": "IT_Overheid",
-  "ip": "127.0.0.1",
-  "port": "8081",
-  "lastPartEndPoints": [
-  "Overheid/api/1",
-  "Overheid/api/2",
-  "Overheid/api/3"
-]}]
+[
+  {
+    "name": "IT_Registratie",
+    "ip": "127.0.0.1",
+    "port": "8080",
+    "lastPartEndPoints": [
+      "Registratie/api/1",
+      "Registratie/api/2",
+      "Registratie/api/3"
+    ]
+  },
+  {
+    "name": "IT_Overheid",
+    "ip": "127.0.0.1",
+    "port": "8081",
+    "lastPartEndPoints": [
+    "Overheid/api/1",
+    "Overheid/api/2",
+    "Overheid/api/3"
+    ]
+  }
+]
