@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Node {
     private String name;
-    private List<String> endPoints;
+    private List<Leaf> leaves;
 
-    public Node(String name, List<String> endPoints) {
+    public Node(String name, List<Leaf> leaves) {
         this.name = name;
-        this.endPoints = endPoints;
+        this.leaves = leaves;
     }
 
-    public List<String> getEndPoints() {
-        return endPoints;
+    public List<Leaf> getLeaves() {
+        return leaves;
     }
 }

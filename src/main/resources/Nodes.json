@@ -1,22 +1,46 @@
 [
   {
-    "name": "IT_Registratie",
+    "name": "KwetterForTesting",
     "ip": "127.0.0.1",
     "port": "8080",
-    "lastPartEndPoints": [
-      "Registratie/api/1",
-      "Registratie/api/2",
-      "Registratie/api/3"
+    "leaves": [
+      {
+        "lpEndpoint": "KwetterMaWa_war_exploded/api/kwetters",
+        "httpMethod": "GET",
+        "body":  ""
+      },
+      {
+        "lpEndpoint": "KwetterMaWa_war_exploded/api/kwetters",
+        "httpMethod": "POST",
+        "body":  "{ \"text\": \"newKwetter.\", \"postTime\": \"2018-03-07 12:38:49\", \"ownerUri\": \"retlaw33\" }"
+      },
+      {
+        "lpEndpoint": "KwetterMaWa_war_exploded/api/profiles",
+        "httpMethod": "GET",
+        "body":  ""
+      }
     ]
   },
   {
     "name": "IT_Overheid",
     "ip": "127.0.0.1",
     "port": "8081",
-    "lastPartEndPoints": [
-    "Overheid/api/1",
-    "Overheid/api/2",
-    "Overheid/api/3"
+    "leaves": [
+      {
+        "lpEndpoint": "Overheid/api/1",
+        "httpMethod": "GET",
+        "body":  ""
+      },
+      {
+        "lpEndpoint": "Overheid/api/2",
+        "httpMethod": "GET",
+        "body":  "testBody"
+      },
+      {
+        "lpEndpoint": "Overheid/api/3",
+        "httpMethod": "GET",
+        "body":  ""
+      }
     ]
   }
 ]
