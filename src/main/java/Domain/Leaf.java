@@ -1,10 +1,13 @@
 package Domain;
 
+import org.apache.http.client.methods.CloseableHttpResponse;
+
 public class Leaf {
     private String endPoint;
     private HttpMethod httpMethod;
     private String body;
-    private String response;
+    private int statuscode;
+    private String result;
     private boolean functional;
 
     public Leaf(String endPoint, HttpMethod httpMethod, String body) {
@@ -26,12 +29,12 @@ public class Leaf {
         return body;
     }
 
-    public String getResponse() {
-        return response;
+    public int getStatuscode() {
+        return statuscode;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setStatuscode(int statuscode) {
+        this.statuscode = statuscode;
     }
 
     public boolean isFunctional() {
@@ -40,6 +43,14 @@ public class Leaf {
 
     public void setFunctional(boolean functional) {
         this.functional = functional;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 
     @Override

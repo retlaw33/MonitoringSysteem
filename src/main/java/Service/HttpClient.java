@@ -19,7 +19,6 @@ public class HttpClient {
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpGet getRequest = new HttpGet(leaf.getEndPoint());
 
-        // add leaf header
         getRequest.addHeader("User-Agent", USER_AGENT);
 
         CloseableHttpResponse response = null;
@@ -30,7 +29,7 @@ public class HttpClient {
             client.close();
         }
         catch (IOException ex){
-            //ex.printStackTrace();
+            leaf.setStatuscode(404);
         }
         return leaf;
     }
@@ -46,13 +45,18 @@ public class HttpClient {
         postRequest.setHeader("Content-type", "application/json");
 
         postRequest.addHeader("User-Agent", USER_AGENT);
-        CloseableHttpResponse response = client.execute(postRequest);
 
-        System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+        CloseableHttpResponse response = null;
+        try{
+            response = client.execute(postRequest);
+            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
+            leaf = checkResponse(leaf, response);
+            client.close();
+        }
+        catch (IOException ex){
+            leaf.setStatuscode(404);
+        }
 
-        leaf = checkResponse(leaf, response);
-
-        client.close();
         return leaf;
     }
 
@@ -68,8 +72,9 @@ public class HttpClient {
                 result.append(line);
             }
             System.out.println("result = " + result);
-            leaf.setResponse(String.valueOf(result));
+            leaf.setResult(String.valueOf(result));
             leaf.setFunctional(true);
+            leaf.setStatuscode(statuscode);
         }
         else{
             leaf.setFunctional(false);
