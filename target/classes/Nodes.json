@@ -34,7 +34,7 @@
       {
         "lpEndpoint": "Overheid/api/2",
         "httpMethod": "GET",
-        "body":  "testBody"
+        "body":  ""
       },
       {
         "lpEndpoint": "Overheid/api/3",

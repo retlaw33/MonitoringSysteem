@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
 import org.apache.http.HttpException;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class NodeService {
+    static Logger log = Logger.getLogger(NodeService.class.getName());
+
     private List<Node> nodes;
     public ListProperty<String> endpointList = new SimpleListProperty<>();
     public ListView<String> endpointListView = new ListView<>();
@@ -37,6 +40,51 @@ public class NodeService {
             updateFrontEnd();
             TimeUnit.MINUTES.sleep(15);
         }
+    }
+
+    private void checkEndPoints() throws IOException, HttpException {
+        HttpClient myClient = new HttpClient();
+        for (Node node : nodes) {
+            for (Leaf leaf : node.getLeaves()) {
+                switch (leaf.getHttpMethod()){
+                    case GET:
+                        leaf = myClient.getRequest(leaf);
+                        logLeaf(leaf);
+                        break;
+                    case POST:
+                        leaf = myClient.postRequest(leaf);
+                        logLeaf(leaf);
+                        break;
+                    default:
+                        throw new HttpException("Http method not known in Monitoring system.");
+                }
+            }
+        }
+    }
+
+    private void logLeaf(Leaf leaf){
+        System.out.println("testing: " + leaf.getEndPoint());
+        if (leaf.isFunctional()) {
+            log.info(" " + leaf.getEndPoint() + " - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
+        }
+        else {
+            log.warn(" " + leaf.getEndPoint() + " - Statuscode: " + String.valueOf(leaf.getStatuscode()));
+        }
+    }
+
+    private void updateFrontEnd() {
+        // endpointList.clear();
+        List<String> endpoints = new ArrayList<String>();
+        for (Node node : nodes) {
+            for (Leaf leaf : node.getLeaves()) {
+                endpoints.add(leaf.toString());
+            }
+        }
+        Platform.runLater(
+                () -> {
+                    endpointList.set(FXCollections.observableArrayList(endpoints));
+                }
+        );
     }
 
     private void loadNodesFromJson() throws IOException, ParseException {
@@ -76,43 +124,5 @@ public class NodeService {
             nodes.add(new Node(name, leaves));
             System.out.println("Node added: " + name);
         }
-    }
-
-    private void checkEndPoints() throws IOException, HttpException {
-        HttpClient myClient = new HttpClient();
-        for (Node node : nodes) {
-            for (Leaf leaf : node.getLeaves()) {
-                switch (leaf.getHttpMethod()){
-                    case GET:
-                        System.out.println("testing: " + leaf.getEndPoint());
-                        leaf = myClient.getRequest(leaf);
-                        System.out.println(leaf.getResponse());
-                        System.out.println(leaf.isFunctional());
-                        break;
-                    case POST:
-                        leaf = myClient.postRequest(leaf);
-                        System.out.println(leaf.getResponse());
-                        System.out.println(leaf.isFunctional());
-                        break;
-                    default:
-                        throw new HttpException("Http method not known in Monitoring system.");
-                }
-            }
-        }
-    }
-
-    private void updateFrontEnd() {
-        // endpointList.clear();
-        List<String> endpoints = new ArrayList<String>();
-        for (Node node : nodes) {
-            for (Leaf leaf : node.getLeaves()) {
-                endpoints.add(leaf.toString());
-            }
-        }
-        Platform.runLater(
-                () -> {
-                    endpointList.set(FXCollections.observableArrayList(endpoints));
-                }
-        );
     }
 }
