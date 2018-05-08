@@ -16,11 +16,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NodeService {
     static Logger log = Logger.getLogger(NodeService.class.getName());
@@ -37,6 +41,7 @@ public class NodeService {
     public void startMonitoring() throws IOException, HttpException, InterruptedException {
         for(;;) {
             checkEndPoints();
+            countUptimeFromLog();
             updateFrontEnd();
             TimeUnit.MINUTES.sleep(15);
         }
@@ -65,11 +70,46 @@ public class NodeService {
     private void logLeaf(Leaf leaf){
         System.out.println("testing: " + leaf.getEndPoint());
         if (leaf.isFunctional()) {
-            log.info(" |" + leaf.getEndPoint() + "| - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
+
+            log.info(" ◅" + leaf.getHttpMethod().toString() + "▻ Ω" + leaf.getEndPoint() + "℧ - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
         }
         else {
-            log.warn(" |" + leaf.getEndPoint() + "| - Statuscode: " + String.valueOf(leaf.getStatuscode()));
+            log.warn(" ◅" + leaf.getHttpMethod().toString() + "▻ Ω" + leaf.getEndPoint() + "℧ - Statuscode: " + String.valueOf(leaf.getStatuscode()));
         }
+    }
+
+    private void countUptimeFromLog() throws FileNotFoundException {
+        //Read json array
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("europaMonitoring.log").getFile());
+        System.out.println("reading: " + file.getAbsolutePath());
+
+        Scanner s = new Scanner(file);
+        while (s.hasNextLine()){
+            String line = s.nextLine();
+
+            String httpMethod = line.substring(line.indexOf("◅") + 1, line.indexOf("▻"));
+            String endPoint = line.substring(line.indexOf("Ω") + 1, line.indexOf("℧"));
+            boolean up = false;
+            if (line.substring(0,4).equals("INFO")) {
+                up = true;
+            }
+            System.out.println(httpMethod + " -> " + endPoint + " -> " + String.valueOf(up));
+
+            for(Node node : nodes){
+                for (Leaf leaf : node.getLeaves()){
+                    if (leaf.getEndPoint().equals(endPoint) && leaf.getHttpMethod().toString().equals(httpMethod)){
+                        if (up){
+                            leaf.addToUpCount();
+                        }
+                        else{
+                            leaf.addToDownCount();
+                        }
+                    }
+                }
+            }
+        }
+        s.close();
     }
 
     private void updateFrontEnd() {

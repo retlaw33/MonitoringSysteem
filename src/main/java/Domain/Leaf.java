@@ -59,16 +59,16 @@ public class Leaf {
         return upCount;
     }
 
-    public void setUpCount(int upCount) {
-        this.upCount = upCount;
+    public void addToUpCount() {
+        this.upCount++;
     }
 
     public int getDownCount() {
         return downCount;
     }
 
-    public void setDownCount(int downCount) {
-        this.downCount = downCount;
+    public void addToDownCount() {
+        this.downCount++;
     }
 
     @Override
