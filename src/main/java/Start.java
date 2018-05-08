@@ -7,7 +7,6 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -20,7 +19,6 @@ import javafx.scene.chart.XYChart;
 
 public class Start extends Application {
     private static NodeService nodeService;
-    private static Node currentNode;
 
     public static void main (String[] arg) throws IOException, ParseException, HttpException, InterruptedException {
         System.out.println("Start");
@@ -31,7 +29,6 @@ public class Start extends Application {
             } catch (IOException | HttpException | InterruptedException ignored) {
             }
         });
-        currentNode = nodeService.nodes.get(0);
         thread.start();
         launch(arg);
     }
@@ -45,28 +42,19 @@ public class Start extends Application {
         nodeService.endpointList.set(FXCollections.observableArrayList(StillLoading));
         nodeService.endpointListView.itemsProperty().bind(nodeService.endpointList);
 
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String,Number> bc =
-                new BarChart<String,Number>(xAxis,yAxis);
-        xAxis.setLabel("Endpoints");
-        yAxis.setLabel("%");
+        nodeService.xAxis.setLabel("Endpoints");
+        nodeService.yAxis.setLabel("%");
 
-        XYChart.Series uptimeSeries = new XYChart.Series();
-        uptimeSeries.setName("uptime in %");
-        //for (Leaf leaf : currentNode.getLeaves()){
-        //    uptimeSeries.getData().add(new XYChart.Data(leaf., 25601.34));
-        //}
+        nodeService.uptimeSeries.setName("uptime in %");
+        nodeService.downtimeSeries.setName("downtime in %");
 
-        XYChart.Series downtimeSeries = new XYChart.Series();
-        downtimeSeries.setName("downtime in %");
-        //downtimeSeries.getData().add(new XYChart.Data(austria, 57401.85));
+        nodeService.bc.getData().addAll(nodeService.uptimeSeries, nodeService.downtimeSeries);
 
-        VBox layout = new VBox(nodeService.endpointListView, bc);
+        VBox layout = new VBox(nodeService.endpointListView, nodeService.bc);
 
         StackPane root = new StackPane();
         root.getChildren().add(layout);
-        primaryStage.setScene(new Scene(root, 700, 400));
+        primaryStage.setScene(new Scene(root, 1400, 800));
         primaryStage.show();
     }
 }

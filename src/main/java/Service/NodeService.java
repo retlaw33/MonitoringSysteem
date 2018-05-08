@@ -7,6 +7,10 @@ import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
 import org.apache.http.HttpException;
 import org.apache.log4j.Logger;
@@ -23,19 +27,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NodeService {
     static Logger log = Logger.getLogger(NodeService.class.getName());
 
     public List<Node> nodes;
+    public Node currentNode;
+
     public ListProperty<String> endpointList = new SimpleListProperty<>();
     public ListView<String> endpointListView = new ListView<>();
+
+    public XYChart.Series uptimeSeries = new XYChart.Series();
+    public XYChart.Series downtimeSeries = new XYChart.Series();
+
+    public CategoryAxis xAxis = new CategoryAxis();
+    public NumberAxis yAxis = new NumberAxis();
+    public BarChart<String,Number> bc = new BarChart<String,Number>(xAxis,yAxis);
 
     public NodeService() throws IOException, ParseException {
         nodes = new ArrayList<>();
         loadNodesFromJson();
+        currentNode = nodes.get(0);
     }
 
     public void startMonitoring() throws IOException, HttpException, InterruptedException {
@@ -70,7 +82,6 @@ public class NodeService {
     private void logLeaf(Leaf leaf){
         System.out.println("testing: " + leaf.getEndPoint());
         if (leaf.isFunctional()) {
-
             log.info(" ◅" + leaf.getHttpMethod().toString() + "▻ Ω" + leaf.getEndPoint() + "℧ - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
         }
         else {
@@ -123,6 +134,13 @@ public class NodeService {
         Platform.runLater(
                 () -> {
                     endpointList.set(FXCollections.observableArrayList(endpoints));
+                    for (Leaf leaf : currentNode.getLeaves()){
+                        uptimeSeries.getData().add(new XYChart.Data(leaf.getHttpMethod().toString() + ":" + leaf.getEndPoint(), leaf.getUpCount()));
+                    }
+                    for (Leaf leaf : currentNode.getLeaves()){
+                        downtimeSeries.getData().add(new XYChart.Data(leaf.getHttpMethod().toString() + ":" + leaf.getEndPoint(), leaf.getDownCount()));
+                    }
+                    bc.getData().addAll(uptimeSeries, downtimeSeries);
                 }
         );
     }
