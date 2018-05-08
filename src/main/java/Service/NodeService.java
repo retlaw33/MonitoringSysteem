@@ -25,12 +25,12 @@ import java.util.concurrent.TimeUnit;
 public class NodeService {
     static Logger log = Logger.getLogger(NodeService.class.getName());
 
-    private List<Node> nodes;
+    public List<Node> nodes;
     public ListProperty<String> endpointList = new SimpleListProperty<>();
     public ListView<String> endpointListView = new ListView<>();
 
-    public NodeService() throws IOException, ParseException, HttpException, InterruptedException {
-        nodes = new ArrayList<Node>();
+    public NodeService() throws IOException, ParseException {
+        nodes = new ArrayList<>();
         loadNodesFromJson();
     }
 
@@ -65,10 +65,10 @@ public class NodeService {
     private void logLeaf(Leaf leaf){
         System.out.println("testing: " + leaf.getEndPoint());
         if (leaf.isFunctional()) {
-            log.info(" " + leaf.getEndPoint() + " - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
+            log.info(" |" + leaf.getEndPoint() + "| - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
         }
         else {
-            log.warn(" " + leaf.getEndPoint() + " - Statuscode: " + String.valueOf(leaf.getStatuscode()));
+            log.warn(" |" + leaf.getEndPoint() + "| - Statuscode: " + String.valueOf(leaf.getStatuscode()));
         }
     }
 

@@ -9,6 +9,8 @@ public class Leaf {
     private int statuscode;
     private String result;
     private boolean functional;
+    private int upCount;
+    private int downCount;
 
     public Leaf(String endPoint, HttpMethod httpMethod, String body) {
         this.endPoint = endPoint;
@@ -51,6 +53,22 @@ public class Leaf {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public int getUpCount() {
+        return upCount;
+    }
+
+    public void setUpCount(int upCount) {
+        this.upCount = upCount;
+    }
+
+    public int getDownCount() {
+        return downCount;
+    }
+
+    public void setDownCount(int downCount) {
+        this.downCount = downCount;
     }
 
     @Override
