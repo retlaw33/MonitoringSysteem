@@ -7,6 +7,10 @@ import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
 import org.apache.http.HttpException;
 import org.apache.log4j.Logger;
@@ -16,27 +20,40 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class NodeService {
     static Logger log = Logger.getLogger(NodeService.class.getName());
 
-    private List<Node> nodes;
+    public List<Node> nodes;
+    public Node currentNode;
+
     public ListProperty<String> endpointList = new SimpleListProperty<>();
     public ListView<String> endpointListView = new ListView<>();
 
-    public NodeService() throws IOException, ParseException, HttpException, InterruptedException {
-        nodes = new ArrayList<Node>();
+    public XYChart.Series uptimeSeries = new XYChart.Series();
+    public XYChart.Series downtimeSeries = new XYChart.Series();
+
+    public CategoryAxis xAxis = new CategoryAxis();
+    public NumberAxis yAxis = new NumberAxis();
+    public BarChart<String,Number> bc = new BarChart<String,Number>(xAxis,yAxis);
+
+    public NodeService() throws IOException, ParseException {
+        nodes = new ArrayList<>();
         loadNodesFromJson();
+        currentNode = nodes.get(0);
     }
 
     public void startMonitoring() throws IOException, HttpException, InterruptedException {
         for(;;) {
             checkEndPoints();
+            countUptimeFromLog();
             updateFrontEnd();
             TimeUnit.MINUTES.sleep(15);
         }
@@ -65,11 +82,45 @@ public class NodeService {
     private void logLeaf(Leaf leaf){
         System.out.println("testing: " + leaf.getEndPoint());
         if (leaf.isFunctional()) {
-            log.info(" " + leaf.getEndPoint() + " - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
+            log.info(" ◅" + leaf.getHttpMethod().toString() + "▻ Ω" + leaf.getEndPoint() + "℧ - Statuscode: " + String.valueOf(leaf.getStatuscode()) + " - Response: " + leaf.getResult());
         }
         else {
-            log.warn(" " + leaf.getEndPoint() + " - Statuscode: " + String.valueOf(leaf.getStatuscode()));
+            log.warn(" ◅" + leaf.getHttpMethod().toString() + "▻ Ω" + leaf.getEndPoint() + "℧ - Statuscode: " + String.valueOf(leaf.getStatuscode()));
         }
+    }
+
+    private void countUptimeFromLog() throws FileNotFoundException {
+        //Read json array
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("europaMonitoring.log").getFile());
+        System.out.println("reading: " + file.getAbsolutePath());
+
+        Scanner s = new Scanner(file);
+        while (s.hasNextLine()){
+            String line = s.nextLine();
+
+            String httpMethod = line.substring(line.indexOf("◅") + 1, line.indexOf("▻"));
+            String endPoint = line.substring(line.indexOf("Ω") + 1, line.indexOf("℧"));
+            boolean up = false;
+            if (line.substring(0,4).equals("INFO")) {
+                up = true;
+            }
+            System.out.println(httpMethod + " -> " + endPoint + " -> " + String.valueOf(up));
+
+            for(Node node : nodes){
+                for (Leaf leaf : node.getLeaves()){
+                    if (leaf.getEndPoint().equals(endPoint) && leaf.getHttpMethod().toString().equals(httpMethod)){
+                        if (up){
+                            leaf.addToUpCount();
+                        }
+                        else{
+                            leaf.addToDownCount();
+                        }
+                    }
+                }
+            }
+        }
+        s.close();
     }
 
     private void updateFrontEnd() {
@@ -83,6 +134,13 @@ public class NodeService {
         Platform.runLater(
                 () -> {
                     endpointList.set(FXCollections.observableArrayList(endpoints));
+                    for (Leaf leaf : currentNode.getLeaves()){
+                        uptimeSeries.getData().add(new XYChart.Data(leaf.getHttpMethod().toString() + ":" + leaf.getEndPoint(), leaf.getUpCount()));
+                    }
+                    for (Leaf leaf : currentNode.getLeaves()){
+                        downtimeSeries.getData().add(new XYChart.Data(leaf.getHttpMethod().toString() + ":" + leaf.getEndPoint(), leaf.getDownCount()));
+                    }
+                    bc.getData().addAll(uptimeSeries, downtimeSeries);
                 }
         );
     }
