@@ -11,6 +11,10 @@ public class Node {
         this.leaves = leaves;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public List<Leaf> getLeaves() {
         return leaves;
     }

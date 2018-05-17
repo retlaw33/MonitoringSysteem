@@ -1,22 +1,39 @@
 package Domain;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
+import java.time.LocalDateTime;
 
 public class Leaf {
+    private String name;
     private String endPoint;
     private HttpMethod httpMethod;
     private String body;
+    private LocalDateTime dateTime;
     private int statuscode;
     private String result;
     private boolean functional;
     private int upCount;
     private int downCount;
 
-    public Leaf(String endPoint, HttpMethod httpMethod, String body) {
+    public Leaf(String name, boolean functional, LocalDateTime dateTime) {
+        this.name = name;
+        this.functional = functional;
+        this.dateTime = dateTime;
+    }
+
+    public Leaf(String name, String endPoint, HttpMethod httpMethod, String body) {
+        this.name = name;
         this.endPoint = endPoint;
         this.httpMethod = httpMethod;
         this.body = body;
         this.functional = false;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getEndPoint() {

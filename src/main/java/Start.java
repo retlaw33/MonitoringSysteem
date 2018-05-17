@@ -1,21 +1,18 @@
-import Domain.Leaf;
-import Domain.Node;
 import Service.NodeService;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.apache.http.HttpException;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 
 public class Start extends Application {
     private static NodeService nodeService;
@@ -26,7 +23,7 @@ public class Start extends Application {
         Thread thread = new Thread(() -> {
             try {
                 nodeService.startMonitoring();
-            } catch (IOException | HttpException | InterruptedException ignored) {
+            } catch (IOException | InterruptedException ignored) {
             }
         });
         thread.start();
@@ -43,14 +40,28 @@ public class Start extends Application {
         nodeService.endpointListView.itemsProperty().bind(nodeService.endpointList);
 
         nodeService.xAxis.setLabel("Endpoints");
-        nodeService.yAxis.setLabel("%");
+        nodeService.yAxis.setLabel("#calls");
+        nodeService.uptimeSeries.setName("uptime");
+        nodeService.downtimeSeries.setName("downtime");
 
-        nodeService.uptimeSeries.setName("uptime in %");
-        nodeService.downtimeSeries.setName("downtime in %");
+        nodeService.barChart.getData().addAll(nodeService.uptimeSeries, nodeService.downtimeSeries);
 
-        nodeService.bc.getData().addAll(nodeService.uptimeSeries, nodeService.downtimeSeries);
+        nodeService.lcxAxis.setAutoRanging(true);
+        nodeService.lcxAxis.setLowerBound(0);
+        nodeService.lcxAxis.setUpperBound(24);
 
-        VBox layout = new VBox(nodeService.endpointListView, nodeService.bc);
+        nodeService.lcyAxis.setAutoRanging(false);
+        nodeService.lcyAxis.setLowerBound(0);
+        nodeService.lcyAxis.setUpperBound(1);
+
+        nodeService.datePicker.setValue(LocalDate.now());
+        nodeService.datePicker.setShowWeekNumbers(true);
+
+        nodeService.lineChart.getData().add(nodeService.lcSeries);
+
+        HBox toolbar = new HBox(nodeService.ddNodes, nodeService.datePicker);
+
+        VBox layout = new VBox(nodeService.endpointListView, toolbar , nodeService.barChart, nodeService.lineChart);
 
         StackPane root = new StackPane();
         root.getChildren().add(layout);

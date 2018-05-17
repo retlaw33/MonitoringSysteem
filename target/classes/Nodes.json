@@ -5,16 +5,19 @@
     "port": "8080",
     "leaves": [
       {
+        "leafName": "get kwetters",
         "lpEndpoint": "KwetterMaWa_war_exploded/api/kwetters",
         "httpMethod": "GET",
         "body":  ""
       },
       {
+        "leafName": "save kwetter",
         "lpEndpoint": "KwetterMaWa_war_exploded/api/kwetters",
         "httpMethod": "POST",
         "body":  "{ \"text\": \"newKwetter.\", \"postTime\": \"2018-03-07 12:38:49\", \"ownerUri\": \"retlaw33\" }"
       },
       {
+        "leafName": "get profiles",
         "lpEndpoint": "KwetterMaWa_war_exploded/api/profiles",
         "httpMethod": "GET",
         "body":  ""
@@ -27,16 +30,19 @@
     "port": "8081",
     "leaves": [
       {
+        "leafName": "get overheid1",
         "lpEndpoint": "Overheid/api/1",
         "httpMethod": "GET",
         "body":  ""
       },
       {
+        "leafName": "get overheid2",
         "lpEndpoint": "Overheid/api/2",
         "httpMethod": "GET",
         "body":  ""
       },
       {
+        "leafName": "get overheid3",
         "lpEndpoint": "Overheid/api/3",
         "httpMethod": "GET",
         "body":  ""

@@ -1,3 +1,1 @@
-naam toevoegen aan json file.
-drop down maken waarin kan worden gekozen welk scherm je wilt zien.
 lijn datetime grafiek maken waarin je ziet wanneer een end point down was.
